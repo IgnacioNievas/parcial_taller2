@@ -25,7 +25,7 @@ void ingresaProceso(){
         if(scheduling[i]==NULL){
      scheduling[i]=(Proceso*) malloc(sizeof(Proceso));
    assert(  scheduling[i] != NULL );
-      scheduling[i]->prioridad=id;
+      scheduling[i]->prioridad=i;
       scheduling[i]->procesador=id;
       scheduling[i]->id_proceso= rand() % 55555;
        strcpy( scheduling[i]->estado,"Nuevo");
@@ -53,7 +53,7 @@ void recorreCola(){
 // int libre;
 //   for(int i =0; i<N ;i++){ 
     
-    //   scheduling[i]->prioridad=id++;
+    
     //   scheduling[i]->procesador=rand()%2;
     //   asignaEstado( scheduling[i]);
   //}  

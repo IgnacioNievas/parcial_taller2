@@ -1,10 +1,28 @@
 #include "parcial1.h"
 
 int main(void){
+ srand(getpid());
+ for(int i =0; i<N ;i++){ 
+     scheduling[i]=NULL;
+ }
 
+ for(int i =0; i<6 ;i++){ 
 ingresaProceso();
+ingresaProceso();
+ingresaProceso();
+mostrarScheduler();
+printf("\n");
 recorreCola();
 mostrarScheduler();
+printf("\n");
+ingresaProceso();
+ingresaProceso();
+mostrarScheduler();
+printf("\n");
+recorreCola();
+mostrarScheduler();
+printf("\n");
+}
 return 0;
 };
 
@@ -19,49 +37,64 @@ strcpy(p->estado,"Terminado");
 };
 
 void ingresaProceso(){
- srand(getpid());
+
     for(int i=0 ; i < N ;i++){
         
         if(scheduling[i]==NULL){
      scheduling[i]=(Proceso*) malloc(sizeof(Proceso));
    assert(  scheduling[i] != NULL );
-      scheduling[i]->prioridad=i;
-      scheduling[i]->procesador=id;
-      scheduling[i]->id_proceso= rand() % 55555;
+      scheduling[i]->prioridad=id++;
+      scheduling[i]->procesador=0;
+      scheduling[i]->id_proceso= 1+ rand() % 55555;
        strcpy( scheduling[i]->estado,"Nuevo");
-
+break;
     }
 
     }
 
 };
 
-int terminaProceso(){
-    int libre;
-
-    for(int i = 0;i< N; i++){
-        if(strcmp(scheduling[i]->estado,"Terminado")==0){
-            free(*(scheduling+i));
-            libre= i;
-        }
+void terminaProceso(int libre){
+         free(*(scheduling+libre));
+         scheduling[libre]=NULL;
+       
   }
 
-  return libre;
-};
+
+
 
 void recorreCola(){
-// int libre;
-//   for(int i =0; i<N ;i++){ 
+ int priorid,proce = 0;
+
+      for(int i = 0;i< N; i++){
+        if(scheduling[i]!=NULL){
+                         if(strcmp(scheduling[i]->estado,"Terminado")==0){
+                                priorid = scheduling[i]->prioridad;
+                                        terminaProceso(i);
+                                                                 }
+                                                                    }
+                                                                      }
+      for(int i = 0;i< N; i++){
+        if(scheduling[i]!= NULL){
+            if((proce < 2 && (scheduling[i]->prioridad == priorid+1 ))||(proce < 2 && (scheduling[i]->prioridad == priorid+2 ))){
+                scheduling[i]->procesador= proce + 1;
+                proce++;
+            }else if((proce < 2 && (scheduling[i]->prioridad == 1 ))||(proce < 2 && (scheduling[i]->prioridad == 2 ))){
+                 scheduling[i]->procesador=proce+1;
+                  proce++;
+            }
     
-    
-    //   scheduling[i]->procesador=rand()%2;
-    //   asignaEstado( scheduling[i]);
-  //}  
-//libre =terminarProceso();
-// scheduling[libre]=NULL;    
+      asignaEstado( scheduling[i]);  }
+                                       }
+  
 };
 
 void mostrarScheduler(){
     for(int i=0;i< N;i++){
-    printf("[%d]-> {%d ; %d ; %d ;%s }\n",i ,scheduling[i]->procesador,scheduling[i]->id_proceso,scheduling[i]->prioridad,scheduling[i]->estado);}
+        if(scheduling[i]!=NULL){
+    printf("[%d]-> {%d ; %d ; %d ;%s }\n",i ,scheduling[i]->procesador,scheduling[i]->id_proceso,scheduling[i]->prioridad,scheduling[i]->estado);
+    }else{
+        printf("[%d] \n",i);
+    }
+    }
 };

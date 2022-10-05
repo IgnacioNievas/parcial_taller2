@@ -19,6 +19,6 @@ Proceso* scheduling[10];
 
 void asignaEstado(Proceso*);
 void ingresaProceso();
-int terminaProceso();
+void terminaProceso(int );
 void recorreCola();
 void mostrarScheduler();
